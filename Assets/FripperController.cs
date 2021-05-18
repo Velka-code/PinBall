@@ -12,6 +12,8 @@ public class FripperController : MonoBehaviour
     //弾いた時の傾き
     private float flickAngle = -20;
 
+   public float startPos;
+
     // Use this for initialization
     void Start()
     {
@@ -59,8 +61,6 @@ public class FripperController : MonoBehaviour
         }
 
 
-
-
         //キー操作とタッチ操作を別々に記載（タッチ用）
         //左右同時にタップしたときの不具合を修正
         //if (Input.touchCount > 0)
@@ -72,6 +72,7 @@ public class FripperController : MonoBehaviour
             {
                 case TouchPhase.Began://タッチしたときフリッパーを動かす
                     float getPos = touch.position.x;
+                    startPos = getPos;
 
                     if ((getPos < Screen.width / 2) && tag == "LeftFripperTag")
                     {
@@ -108,6 +109,14 @@ public class FripperController : MonoBehaviour
                     }
 
                     break;
+                case TouchPhase.Moved://タッチを離さず移動させたときの不具合を修正
+                    if(startPos - touch.position.x < -1 || startPos -touch.position.x > 1)
+                    {
+                        SetAngle(this.defaultAngle);
+                    }
+
+                    break;
+
                 default:
                     break;
             }
