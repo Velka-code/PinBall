@@ -58,10 +58,15 @@ public class FripperController : MonoBehaviour
             SetAngle(this.defaultAngle);
         }
 
+
+
+
         //キー操作とタッチ操作を別々に記載（タッチ用）
-        if (Input.touchCount > 0)
+        //左右同時にタップしたときの不具合を修正
+        //if (Input.touchCount > 0)
+        for (int i = 0; i < Input.touchCount; i++)
         {
-            Touch touch = Input.GetTouch(0);
+            Touch touch = Input.GetTouch(i);
 
             switch (touch.phase)
             {
@@ -76,6 +81,12 @@ public class FripperController : MonoBehaviour
                     {
                         SetAngle(this.flickAngle); 
                     }
+                    if ((getPos < Screen.width / 2) && (getPos > Screen.width / 2))
+                    
+                    {
+                        SetAngle(this.flickAngle);
+                    }
+
                     break;
 
                 case TouchPhase.Ended: //タッチを離したときフリッパーを元に戻す
@@ -86,6 +97,12 @@ public class FripperController : MonoBehaviour
                         SetAngle(this.defaultAngle);
                     }
                     if ((getPosa >= Screen.width / 2) && tag == "RightFripperTag")
+                    {
+                        SetAngle(this.defaultAngle);
+                    }
+
+                    if ((getPosa < Screen.width / 2) && (getPosa > Screen.width / 2))
+                    
                     {
                         SetAngle(this.defaultAngle);
                     }
